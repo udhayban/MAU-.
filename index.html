@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Flow | ABGI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">CF</div>
+        <div>
+          <h2>Campus Flow</h2>
+          <p>ABGI Smart Campus</p>
+        </div>
+      </div>
+
+      <nav>
+        <button class="nav-link active" data-target="dashboard">Dashboard</button>
+        <button class="nav-link" data-target="booking">Book a Venue</button>
+        <button class="nav-link" data-target="schedule">Live Schedule</button>
+        <button class="nav-link" data-target="admin">Admin Panel</button>
+      </nav>
+
+      <div class="sidebar-note">
+        <strong>DevSpark Prototype</strong>
+        <span>Real-time resource conflict & slot optimizer</span>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <span class="eyebrow">ENGINEER'S DAY PROJECT</span>
+          <h1>Campus Resource Optimization</h1>
+        </div>
+        <div class="top-actions">
+          <span class="live-pill"><span></span> Live System</span>
+          <button class="ghost-btn" id="resetDemo">Reset Demo</button>
+        </div>
+      </header>
+
+      <section id="dashboard" class="page-section active">
+        <div class="hero">
+          <div>
+            <span class="hero-badge">Smart Venue Booking</span>
+            <h2>Find, reserve and manage campus spaces without booking clashes.</h2>
+            <p>Campus Flow checks availability instantly, detects schedule conflicts, suggests the nearest alternatives and gives administrators one place to approve or cancel requests.</p>
+            <button class="primary-btn jump-booking">Create Booking Request</button>
+          </div>
+          <div class="hero-card">
+            <div class="hero-icon">⚡</div>
+            <h3>Instant Conflict Engine</h3>
+            <p>Every request is validated against existing bookings in real time.</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card"><span>Total Venues</span><strong id="venueCount">0</strong><small>Campus resources</small></div>
+          <div class="stat-card"><span>Today's Bookings</span><strong id="todayCount">0</strong><small>Across all venues</small></div>
+          <div class="stat-card"><span>Pending Requests</span><strong id="pendingCount">0</strong><small>Awaiting admin action</small></div>
+          <div class="stat-card"><span>Conflicts Prevented</span><strong id="conflictCount">0</strong><small>During this demo</small></div>
+        </div>
+
+        <div class="content-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div><span class="eyebrow">LIVE STATUS</span><h3>Venue Availability</h3></div>
+            </div>
+            <div id="venueCards" class="venue-grid"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div><span class="eyebrow">UPCOMING</span><h3>Next Bookings</h3></div>
+            </div>
+            <div id="upcomingList" class="booking-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="booking" class="page-section">
+        <div class="section-heading">
+          <div><span class="eyebrow">NEW REQUEST</span><h2>Reserve a campus resource</h2></div>
+          <p>The system automatically checks overlapping bookings before submitting.</p>
+        </div>
+
+        <div class="booking-layout">
+          <form id="bookingForm" class="panel form-panel">
+            <div class="form-grid">
+              <label>Event Name
+                <input id="eventName" required placeholder="e.g. Coding Workshop" />
+              </label>
+
+              <label>Organizer
+                <input id="organizer" required placeholder="e.g. CSE Department" />
+              </label>
+
+              <label>Venue
+                <select id="venue" required></select>
+              </label>
+
+              <label>Expected Audience
+                <input id="audience" required type="number" min="1" placeholder="150" />
+              </label>
+
+              <label>Date
+                <input id="date" required type="date" />
+              </label>
+
+              <label>Start Time
+                <input id="startTime" required type="time" />
+              </label>
+
+              <label>End Time
+                <input id="endTime" required type="time" />
+              </label>
+
+              <label>Event Type
+                <select id="eventType" required>
+                  <option value="Academic">Academic</option>
+                  <option value="Cultural">Cultural</option>
+                  <option value="Sports">Sports</option>
+                  <option value="Technical">Technical</option>
+                  <option value="Meeting">Meeting</option>
+                </select>
+              </label>
+            </div>
+
+            <button class="primary-btn full" type="submit">Check Availability & Submit</button>
+          </form>
+
+          <div class="panel helper-panel">
+            <span class="eyebrow">SMART SUGGESTER</span>
+            <h3>Best-fit logic</h3>
+            <p>If your selected venue is busy, Campus Flow searches for:</p>
+            <ul>
+              <li>Other venues available at the same time</li>
+              <li>The nearest open slot for your selected venue</li>
+              <li>Spaces with enough capacity for the audience</li>
+            </ul>
+            <div id="bookingResult" class="result-box neutral">
+              Fill the form to test the conflict engine.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="schedule" class="page-section">
+        <div class="section-heading">
+          <div><span class="eyebrow">REAL-TIME VIEW</span><h2>Campus schedule</h2></div>
+          <p>Approved and pending bookings appear here immediately.</p>
+        </div>
+        <div class="panel table-panel">
+          <div class="filters">
+            <input id="scheduleSearch" placeholder="Search event, organizer or venue..." />
+            <select id="statusFilter">
+              <option value="all">All Statuses</option>
+              <option value="Approved">Approved</option>
+              <option value="Pending">Pending</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Event</th>
+                  <th>Venue</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Organizer</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="scheduleBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="admin" class="page-section">
+        <div class="section-heading">
+          <div><span class="eyebrow">CONTROL CENTER</span><h2>Admin approval dashboard</h2></div>
+          <p>Approve or cancel requests and see the schedule update instantly.</p>
+        </div>
+
+        <div class="stats-grid compact">
+          <div class="stat-card"><span>Approved</span><strong id="approvedCount">0</strong></div>
+          <div class="stat-card"><span>Pending</span><strong id="adminPendingCount">0</strong></div>
+          <div class="stat-card"><span>Cancelled</span><strong id="cancelledCount">0</strong></div>
+        </div>
+
+        <div class="panel table-panel">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Request</th>
+                  <th>Venue</th>
+                  <th>Schedule</th>
+                  <th>Audience</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        Prototype for DevSpark — Campus Flow & Resource Optimization
+      </footer>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
